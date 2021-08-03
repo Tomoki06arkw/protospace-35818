@@ -5,6 +5,8 @@ class PrototypesController < ApplicationController
 
   def index
     @prototypes = Prototype.includes(:user)
+    @messages = Message.all
+    @message = Message.new
   end
 
   def new
@@ -12,6 +14,11 @@ class PrototypesController < ApplicationController
   end
 
   def create
+    @message = Message.new(text: params[:message][:text])
+    if @message.save
+      ActionCable.server.broadcast 'message_channel', content: @message
+    end
+
     @prototype = Prototype.create(prototype_params)
     if @prototype.save
       redirect_to root_path
@@ -23,6 +30,7 @@ class PrototypesController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @prototype.comments.includes(:user)
+    @prototypes = Prototype.all
   end
 
   def edit

@@ -30,6 +30,11 @@
           </p>
         </div>
       </div>
+      <% @prototypes.each do |prototype| %>
+      <div id="likes_buttons_<%= prototype.id %>">
+        <%= render partial: 'likes/like', locals: {prototype: prototype} %>
+      </div>
+      <% end %>
       <div class="prototype__comments">
         <%# ログインしているユーザーには以下のコメント投稿フォームを表示する %>
         <% if user_signed_in? %>
@@ -48,7 +53,7 @@
           <%# 投稿に紐づくコメントを一覧する処理を記述する %>
             
               <% @comments.each do |comment| %>
-                <li class="comments_list">
+              <li class="comments_list">
                 
                  <%= comment.text %>
                  <%= link_to "(#{comment.user.name})", user_path(comment.user), class: :comment_user %>

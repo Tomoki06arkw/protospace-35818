@@ -11,4 +11,9 @@ class User < ApplicationRecord
 
   has_many :prototypes
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
+
+  def liked_by?(prototype_id)
+    likes.where(prototype_id: prototype_id).exists?
+  end
 end
