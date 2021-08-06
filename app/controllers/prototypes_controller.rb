@@ -1,7 +1,7 @@
 class PrototypesController < ApplicationController
   before_action :set_prototype, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :move_to_index, except: [:index, :show, :new, :create]
+  before_action :authenticate_user!, except: [:index, :show, :new_guest]
+  before_action :move_to_index, except: [:index, :show, :new, :create, :new_guest]
 
   def index
     @prototypes = Prototype.includes(:user)
@@ -9,15 +9,12 @@ class PrototypesController < ApplicationController
     @message = Message.new
   end
 
+
   def new
     @prototype = Prototype.new
   end
 
   def create
-    @message = Message.new(text: params[:message][:text])
-    if @message.save
-      ActionCable.server.broadcast 'message_channel', content: @message
-    end
 
     @prototype = Prototype.create(prototype_params)
     if @prototype.save

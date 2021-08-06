@@ -16,4 +16,5 @@ class User < ApplicationRecord
   def liked_by?(prototype_id)
     likes.where(prototype_id: prototype_id).exists?
   end
+
 end
