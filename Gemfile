@@ -64,3 +64,7 @@ gem 'rails-i18n'
 gem 'rename'
 
 gem 'jquery-rails'
+
+gem 'dotenv-rails'
+
+gem 'config'
